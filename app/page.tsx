@@ -1,6 +1,38 @@
+'use client';
+
 import { ChatBubbleLeftIcon, SparklesIcon, UserGroupIcon } from '@heroicons/react/24/outline';
+import { useState } from 'react';
 
 export default function Home() {
+  const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!question.trim()) return;
+    
+    setLoading(true);
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: question })
+      });
+      
+      const data = await response.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      
+      setAnswer(data.answer);
+    } catch (error) {
+      console.error('Error:', error);
+      setAnswer('Sorry, something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
@@ -17,14 +49,26 @@ export default function Home() {
               <div className="flex gap-2">
                 <input
                   type="text"
+                  value={question}
+                  onChange={(e) => setQuestion(e.target.value)}
                   placeholder="Ask your dating question..."
                   className="flex-1 px-4 py-3 rounded-lg text-dark focus:outline-none focus:ring-2 focus:ring-primary border border-gray-200"
+                  onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
                 />
-                <button className="px-6 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2">
+                <button
+                  onClick={handleSubmit}
+                  disabled={loading}
+                  className="px-6 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   <SparklesIcon className="w-5 h-5" />
-                  Generate
+                  {loading ? 'Generating...' : 'Generate'}
                 </button>
               </div>
+              {answer && (
+                <div className="mt-6 p-4 bg-gray-50 rounded-lg text-left">
+                  <p className="text-gray-700 whitespace-pre-wrap">{answer}</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
