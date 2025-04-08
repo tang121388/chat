@@ -1,17 +1,15 @@
 import { MetadataRoute } from 'next'
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://www.lovechatai.org'
-
+export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: baseUrl,
+      url: 'https://www.lovechatai.org',
       lastModified: new Date().toISOString(),
       changeFrequency: 'daily',
       priority: 1,
     },
     {
-      url: `${baseUrl}/chat`,
+      url: 'https://www.lovechatai.org/chat',
       lastModified: new Date().toISOString(),
       changeFrequency: 'daily',
       priority: 0.8,
