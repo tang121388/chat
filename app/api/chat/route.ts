@@ -4,17 +4,15 @@ export async function POST(request: Request) {
   try {
     const { message } = await request.json();
     
-    // OpenRouter API endpoint
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    // DeepSeek API endpoint
+    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        'HTTP-Referer': 'http://localhost:3000',
-        'X-Title': 'AI Dating Chat Assistant'
+        'Authorization': `Bearer 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`,
       },
       body: JSON.stringify({
-        model: 'mistralai/mistral-7b-instruct',
+        model: 'deepseek-chat',
         max_tokens: 1000,
         messages: [
           {
@@ -40,7 +38,7 @@ export async function POST(request: Request) {
     }
 
     const data = await response.json();
-    console.log('API Response:', data); // 添加调试日志
+    console.log('API Response:', data);
 
     if (!data.choices || !data.choices[0] || !data.choices[0].message) {
       console.error('Unexpected API response format:', data);
@@ -48,12 +46,11 @@ export async function POST(request: Request) {
     }
 
     const answer = data.choices[0].message.content;
-    
     return NextResponse.json({ answer });
-  } catch (error: any) {
-    console.error('Error details:', error);
+  } catch (error) {
+    console.error('Error:', error);
     return NextResponse.json(
-      { error: error?.message || 'Failed to generate response' },
+      { error: 'An error occurred while processing your request' },
       { status: 500 }
     );
   }
