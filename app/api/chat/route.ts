@@ -11,12 +11,15 @@ export async function POST(request: Request) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
         'HTTP-Referer': 'https://www.lovechatai.org',
-        'X-Title': 'AI Dating Chat Assistant'
+        'X-Title': 'AI Dating Chat Assistant',
+        'OpenAI-Organization': 'lovechatai'
       },
       body: JSON.stringify({
         model: 'deepseek/deepseek-v3-base:free',
         max_tokens: 1000,
         temperature: 0.7,
+        top_p: 0.9,
+        stream: false,
         messages: [
           {
             role: 'system',
@@ -37,7 +40,15 @@ export async function POST(request: Request) {
         statusText: response.statusText,
         error: errorData
       });
-      throw new Error(`API request failed with status ${response.status}`);
+      
+      // 添加更详细的错误日志
+      console.log('Request details:', {
+        model: 'deepseek/deepseek-v3-base:free',
+        message: message,
+        headers: response.headers,
+      });
+      
+      throw new Error(`API request failed with status ${response.status}: ${JSON.stringify(errorData)}`);
     }
 
     const data = await response.json();
@@ -51,9 +62,9 @@ export async function POST(request: Request) {
     const answer = data.choices[0].message.content;
     return NextResponse.json({ answer });
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error details:', error);
     return NextResponse.json(
-      { error: 'An error occurred while processing your request' },
+      { error: 'An error occurred while processing your request. Please try again later.' },
       { status: 500 }
     );
   }
