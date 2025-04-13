@@ -14,10 +14,11 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         model: 'deepseek-chat',
         max_tokens: 1000,
+        temperature: 0.7,
         messages: [
           {
             role: 'system',
-            content: 'You are a dating and relationship advisor. Provide helpful, respectful, and practical advice. Keep responses concise and actionable.'
+            content: 'You are an expert dating and relationship advisor. Your role is to provide helpful, respectful, and practical advice to users seeking guidance in their dating life. Keep your responses concise, actionable, and empathetic. Focus on providing specific, practical tips that users can implement immediately. Always maintain a positive and encouraging tone.'
           },
           {
             role: 'user',
