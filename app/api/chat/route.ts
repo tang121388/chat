@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 
     // Log the full request configuration
     console.log('Request Configuration:', {
-      url: 'https://openrouter.ai/api/v1/chat/completions',
+      url: 'https://api.openrouter.ai/api/v1/chat/completions',
       headers: {
         'Content-Type': 'application/json',
         'HTTP-Referer': 'https://www.lovechatai.org',
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       body: requestBody
     });
 
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    const response = await fetch('https://api.openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
