@@ -4,15 +4,17 @@ export async function POST(request: Request) {
   try {
     const { message } = await request.json();
     
-    // DeepSeek API endpoint
-    const response = await fetch('https://api.deepseek.ai/v1/chat/completions', {
+    // OpenRouter API endpoint for DeepSeek model
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+        'HTTP-Referer': 'https://www.lovechatai.org',
+        'X-Title': 'AI Dating Chat Assistant'
       },
       body: JSON.stringify({
-        model: 'deepseek-chat',
+        model: 'deepseek/deepseek-v3-base:free',
         max_tokens: 1000,
         temperature: 0.7,
         messages: [
