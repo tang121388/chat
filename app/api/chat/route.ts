@@ -4,26 +4,23 @@ export async function POST(request: Request) {
   try {
     const { message } = await request.json();
     
-    // OpenRouter API endpoint for DeepSeek model
+    // OpenRouter API endpoint for Mistral model
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
         'HTTP-Referer': 'https://www.lovechatai.org',
-        'X-Title': 'AI Dating Chat Assistant',
-        'OpenAI-Organization': 'lovechatai'
+        'X-Title': 'AI Dating Chat Assistant'
       },
       body: JSON.stringify({
-        model: 'deepseek/deepseek-v3-base:free',
+        model: 'mistralai/mistral-7b-instruct',
         max_tokens: 1000,
         temperature: 0.7,
-        top_p: 0.9,
-        stream: false,
         messages: [
           {
             role: 'system',
-            content: 'You are an expert dating and relationship advisor. Your role is to provide helpful, respectful, and practical advice to users seeking guidance in their dating life. Keep your responses concise, actionable, and empathetic. Focus on providing specific, practical tips that users can implement immediately. Always maintain a positive and encouraging tone.'
+            content: 'You are an expert dating and relationship advisor. Your role is to provide helpful, respectful, and practical advice to users seeking guidance in their dating life. Keep your responses concise, actionable, and empathetic. Focus on providing specific, practical tips that users can implement immediately. Always maintain a positive and encouraging tone. Respond in the same language as the user\'s message.'
           },
           {
             role: 'user',
@@ -43,7 +40,7 @@ export async function POST(request: Request) {
       
       // 添加更详细的错误日志
       console.log('Request details:', {
-        model: 'deepseek/deepseek-v3-base:free',
+        model: 'mistralai/mistral-7b-instruct',
         message: message,
         headers: response.headers,
       });
