@@ -40,7 +40,8 @@ export async function POST(request: Request) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
         'HTTP-Referer': 'https://www.lovechatai.org',
-        'X-Title': 'AI Dating Chat Assistant'
+        'X-Title': 'AI Dating Chat Assistant',
+        'OR-SITE-URL': 'https://www.lovechatai.org'
       },
       body: JSON.stringify(requestBody)
     });
