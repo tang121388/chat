@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     const { message } = await request.json();
     
     // DeepSeek API endpoint
-    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+    const response = await fetch('https://api.deepseek.ai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
