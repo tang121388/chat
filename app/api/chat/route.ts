@@ -8,9 +8,7 @@ export async function POST(request: Request) {
     console.log('API Key present:', !!process.env.OPENROUTER_API_KEY);
     
     const requestBody = {
-      model: 'mistralai/mistral-7b-instruct',
-      max_tokens: 1000,
-      temperature: 0.7,
+      model: 'google/gemini-pro',
       messages: [
         {
           role: 'system',
@@ -20,10 +18,12 @@ export async function POST(request: Request) {
           role: 'user',
           content: message
         }
-      ]
+      ],
+      temperature: 0.7,
+      max_tokens: 1000
     };
 
-    // Log the full request configuration
+    // Log request configuration
     console.log('Request Configuration:', {
       url: 'https://api.openrouter.ai/api/v1/chat/completions',
       headers: {
